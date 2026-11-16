@@ -420,11 +420,13 @@ cd ccifj-frontend && npm test
 
 Built by **Team Irbid** at the 42 Asia Hackathon 2026:
 
-- Mohammed Adel
-- Mohammad Khashan
-- Sara Ammourh
-- Kanan Lafi
-- Raad Ali
-- Blitz ([@Blitz-adali](https://github.com/Blitz-adali))
+| Member | Role |
+|---|---|
+| Mohammed Adel | The AI agent and the staff dashboard |
+| Sara Ammourh | Database and backend |
+| Kanan Lafi | Retrieval (RAG) and search |
+| Raad Ali | Web scraping and the frontend |
+| Mohammad Khashan | Team member |
+| Blitz ([@Blitz-adali](https://github.com/Blitz-adali)) | Team member |
 
 The team's hackathon repository is [Blitz-adali/CCIFJ-CHATBOT](https://github.com/Blitz-adali/CCIFJ-CHATBOT).
