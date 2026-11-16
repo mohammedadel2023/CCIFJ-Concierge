@@ -7,6 +7,26 @@ sources, and can take real actions, such as booking an event or writing a reques
 staff, but only after the user approves them. Staff follow up and keep it current from a
 dashboard, without coding.
 
+Built by **Team Irbid** for the **42 Asia Hackathon 2026** (Tokyo), with CCIFJ as the partner
+organisation.
+
+### Highlights
+
+- **Answers and acts:** books events, reserves the CCIFJ room, changes or cancels bookings,
+  matches members with partner companies and drafts emails to the right staff contact, each
+  after the user approves it.
+- **Adapts to the user:** visitors, signed-in users, members and staff each get the features
+  that fit their role.
+- **Grounded and multilingual:** answers in English, French or Japanese from CCIFJ's website
+  and approved documents, with the sources shown under every answer.
+- **Run by staff, not developers:** one dashboard for requests and their conversations,
+  matching and introductions, member engagement, events, member companies and knowledge
+  files; linked sources are kept up to date automatically.
+- **Fits CCIFJ's tools:** one `<script>` tag adds it to the TYPO3 website, and the same agent
+  runs inside Prisme.ai.
+- **Tested:** 19 of 20 of the organisers' scenarios passed, all 5 fallback cases were handled
+  safely, and 275 backend and 48 frontend automated tests pass.
+
 | I want to… | Go to |
 |---|---|
 | Run it on my machine | [Quick start](#quick-start) |
@@ -27,18 +47,25 @@ dashboard, without coding.
 - Python **3.12 or later** and [uv](https://docs.astral.sh/uv/)
 - Node.js and npm
 
-The settings file `.env` is included and ready to use, so there are no keys to fill in.
+- An OpenAI API key (or local models through Ollama)
 
 ### Start it
 
 1. Get the code:
 
    ```bash
-   git clone https://github.com/Blitz-adali/CCIFJ-CHATBOT.git
-   cd CCIFJ-CHATBOT
+   git clone https://github.com/mohammedadel2023/CCIFJ-Concierge.git
+   cd CCIFJ-Concierge
    ```
 
-2. Start everything:
+2. Create your settings file from the example, then fill in `OPENAI_API_KEY` and
+   `CCIFJ_AUTH_SECRET` (the example file shows how to generate the secret):
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Start everything:
 
    ```bash
    ./start.sh
@@ -47,7 +74,7 @@ The settings file `.env` is included and ready to use, so there are no keys to f
    The script installs the dependencies, prepares the database and starts the API on port 8001
    and the website on port 5173. It is a bash script: use macOS, Linux, WSL or Git Bash.
 
-3. Open **http://localhost:5173**.
+4. Open **http://localhost:5173**.
 
 The agent loads its models in the background when the API starts (about 12–18 seconds, longer
 the first time because the search model is downloaded). A message sent before that simply waits.
@@ -91,6 +118,8 @@ affected: the concierge keeps working, and a scan or image simply gets a message
 unavailable.
 
 ### Start it by hand (or in Windows PowerShell)
+
+Create `.env` first, as in step 2 above.
 
 ```bash
 uv sync
@@ -322,8 +351,8 @@ are reservations, not payments.
 
 ## Configuration
 
-Settings come from `.env` and are checked at startup (`src/concierge/config.py`). The `.env` in
-the repository is ready for running the demo; you only need this table to change a setting.
+Settings come from `.env` and are checked at startup (`src/concierge/config.py`). Create it from
+`.env.example`, which lists every setting with sensible defaults; this table describes each one.
 
 | Variable | Required | Description |
 |---|---|---|
@@ -384,3 +413,18 @@ cd ccifj-frontend && npm test
 | [src/concierge/api/README.md](src/concierge/api/README.md) | The full API reference |
 | [src/concierge/db/README.md](src/concierge/db/README.md) | The database tables |
 | [ccifj-frontend/README.md](ccifj-frontend/README.md) | The website and dashboard code |
+
+---
+
+## Team
+
+Built by **Team Irbid** at the 42 Asia Hackathon 2026:
+
+- Mohammed Adel
+- Mohammad Khashan
+- Sara Ammourh
+- Kanan Lafi
+- Raad Ali
+- Blitz ([@Blitz-adali](https://github.com/Blitz-adali))
+
+The team's hackathon repository is [Blitz-adali/CCIFJ-CHATBOT](https://github.com/Blitz-adali/CCIFJ-CHATBOT).

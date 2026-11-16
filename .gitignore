@@ -238,3 +238,6 @@ backend
 
 # Never commit runtime secrets
 /config/secret_key
+
+# Local settings with secrets
+.env
