@@ -7,8 +7,7 @@ sources, and can take real actions, such as booking an event or writing a reques
 staff, but only after the user approves them. Staff follow up and keep it current from a
 dashboard, without coding.
 
-Built by **Team Irbid** for the **42 Asia Hackathon 2026** (Tokyo), with CCIFJ as the partner
-organisation.
+Built by **Team Irbid** at the 42 Asia Hackathon 2026, with CCIFJ as the partner organisation.
 
 ### Highlights
 
@@ -24,19 +23,19 @@ organisation.
   files; linked sources are kept up to date automatically.
 - **Fits CCIFJ's tools:** one `<script>` tag adds it to the TYPO3 website, and the same agent
   runs inside Prisme.ai.
-- **Tested:** 19 of 20 of the organisers' scenarios passed, all 5 fallback cases were handled
-  safely, and 275 backend and 48 frontend automated tests pass.
+- **Tested:** 19 of 20 realistic scenarios pass, all 5 fallback cases are handled safely, and
+  275 backend and 48 frontend automated tests pass.
 
 | I want to… | Go to |
 |---|---|
 | Run it on my machine | [Quick start](#quick-start) |
 | Try it as a visitor, a member or staff | [How to use it](#how-to-use-it) |
 | See what it can do | [What the concierge can do](#what-the-concierge-can-do) |
-| Review the hackathon submission | [Hackathon submission](#hackathon-submission) |
+| See how it was tested | [Quality and testing](#quality-and-testing) |
 | Understand how it is built | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Install it for CCIFJ, and see the costs | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
 | Use it from Prisme.ai | [From Prisme.ai](#from-prismeai) |
-| Rehearse the demo | [docs/HACKATHON.md](docs/HACKATHON.md) |
+| Follow a guided walkthrough | [docs/HACKATHON.md](docs/HACKATHON.md) |
 
 ---
 
@@ -265,7 +264,7 @@ Set-up by hand, a fixed address and the tests run in Prisme are in
 |---|---|
 | **Events** | Lists upcoming events (by topic keywords, name, format, city or region such as Kansai, or dates), shows full event details, books tickets for every attendee, and reserves the L'Espace@CCIFJ room. Booking requires login and approval. |
 | **My bookings** | Shows the user's own bookings and room reservations. Before booking, checks whether registration is open, whether they already booked, whether it clashes with their schedule, and whether the room is free (suggesting free slots when it isn't). Cancels a booking or reservation, or changes it (another event, add or remove attendees, new dates) in one step, until it starts. Changes need login and approval. |
-| **Membership** | Explains membership categories, fees, eligibility, and benefits, shares the application form, and searches the member directory. The directory holds each company with its primary and secondary sectors and its **contact people** (name, job title, email, working language), imported from a CCIFJ directory export. Sector names are understood loosely ("F&B", "food", "agroalimentaire" all reach Food & Beverage). Today it holds the organisers' 50 fictional companies and their 116 contacts. |
+| **Membership** | Explains membership categories, fees, eligibility, and benefits, shares the application form, and searches the member directory. The directory holds each company with its primary and secondary sectors and its **contact people** (name, job title, email, working language), imported from a CCIFJ directory export. Sector names are understood loosely ("F&B", "food", "agroalimentaire" all reach Food & Beverage). The sample directory holds 50 companies and 116 contacts. |
 | **Business support** | Knows the full CCIFJ offer across the 8 sections of ccifj.or.jp (Our Chamber, News, Membership, Events, Business Forum, Commercial Support, Recruitment/Training, Publications) and recommends the services that fit the user's stage: market studies, Business Connect, Expo+, sector missions, company setup, domiciliation, V.I.E, VAT recovery, recruitment, training, publications, and advertising. |
 | **Contacts** | Reads the staff directory that CCIFJ maintains in the admin dashboard (department, what each contact handles, email, languages), picks the right contact for the request itself, falls back to the triage contact, and always offers to write the email together. A contact added in the dashboard is used on the next question; no code or topic list to update. |
 | **Staff requests** | Writes an email to a CCIFJ contact, or a ticket for the CCIFJ team when no contact fits. It revises the draft with the user and stores it after the user approves. Staff read each request, and the conversation behind it, in the dashboard (**Requests → Conversations**). |
@@ -283,69 +282,46 @@ Set-up by hand, a fixed address and the tests run in Prisme are in
 
 ---
 
-## Hackathon submission
+## Quality and testing
 
-42 Asia Hackathon 2026, Tokyo.
-
-**Main agent:** Agent 1, the conversational assistant for website visitors.
-**Extra agents claimed as bonuses:** Agent 3 (member matching and introductions) and
-Agent 2 (member engagement).
-**Prisme reuse bonus:** claimed. The concierge runs as a published Prisme.ai agent that calls this
-backend, and the agent is exported for another chamber to import. The knowledge and the agents live
-in this backend, so Prisme and the website give the same answers. See [prisme/README.md](prisme/README.md).
-
-| Agent | Where to look |
-|---|---|
-| 1. Conversational assistant | The chat on the home page, and the widget in `ccifj-frontend/public/embed-demo.html`. Staff side: **Dashboard → Requests**, with its **Conversations** tab. |
-| 2. Member engagement | **Dashboard → Onboarding & automation**: the rules, a run, and the drafted follow-ups staff review before anything is sent. |
-| 3. Member matching | **Dashboard → Matching & intros**, or ask the chat for a company. |
-| Staff update information without coding | **Dashboard → Events, Member companies, Knowledge files, Staff directory**. |
-| Prisme.ai agent | [prisme/README.md](prisme/README.md): how it works, the exported agent, and the tests run in the Prisme Playground. |
-
-### Evidence
-
-- **Scenarios, fallbacks, languages:** a live run of the organisers' question bank: 19 of 20 scenarios pass and
-  1 is partial, 5 of 5 safe fallbacks, and all 25 answers cite at least one validated source. 13 questions were
-  asked in English, 7 in French and 5 in Japanese, each answered in its own language.
+- **Real-world scenarios:** on a bank of 20 realistic CCIFJ scenarios, 19 pass and 1 is partly
+  answered; all 5 fallback cases (missing or conflicting information, unknown member,
+  unavailable event, unsupported request) are handled safely, and every answer cites at least
+  one validated source. The questions were asked in English, French and Japanese, and each was
+  answered in its own language.
 - **Automated tests:** 275 backend tests and 48 frontend tests pass. Run them with
   `uv run python -m unittest discover -s tests -p 'test_*.py'` (backend, no API keys needed) and
   `cd ccifj-frontend && npm test`. See [Testing](#testing).
-- **Sources:** answers cite the crawled ccifj.or.jp pages and the documents staff added; the chat shows them under
-  each answer, and staff see them in the conversation view.
-- **Prisme.ai:** on 10 November 2026 the published Prisme agent answered in English, French and Japanese through
-  the backend and kept a follow-up question in the same conversation. The exported agent file was then imported
-  as a new agent, which worked after one address was set. Screenshots and the test table are in
+- **Sources:** answers cite the crawled ccifj.or.jp pages and the documents staff added; the chat
+  shows them under each answer, and staff see them in the conversation view.
+- **Prisme.ai:** the published Prisme agent answers in English, French and Japanese through the
+  backend and keeps follow-up questions in the same conversation. The exported agent imports
+  into a new workspace and works once its backend address is set. See
   [prisme/README.md](prisme/README.md).
-- **Installation, integration and costs:** [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
-### Declarations
+---
 
-**Data.** Member companies, contacts and accounts are fictional: the organisers' 50 companies and demo accounts.
-Knowledge content is the public ccifj.or.jp website (crawled) and the organisers' approved source documents.
+## Built with
 
-**External services.**
+**Backend:** Python, FastAPI, SQLModel, LangChain and LangGraph, Chroma and bm25s (hybrid
+search), sentence-transformers (`intfloat/multilingual-e5-small`, run locally), pypdf, pypdfium2
+and Tesseract OCR.
+**Frontend:** React and Vite, plus an embeddable chat widget.
 
 | Service | Used for | Required |
 |---|---|---|
 | OpenAI API | The chat model, routing, and optional web search | Yes, unless local Ollama models are used |
 | Cohere Rerank | Re-ordering search results | No; search falls back to hybrid ranking |
-| Hugging Face Hub | One-time download of the `intfloat/multilingual-e5-small` embedding model, which then runs locally | Yes, on first start |
+| Hugging Face Hub | One-time download of the embedding model, which then runs locally | Yes, on first start |
 | LangSmith | Tracing during development | No; off by default |
 | Odoo | Creating a CRM lead for each approved request | No; off by default |
-| Calameo | Reading a linked publication's public page, or the official API when keys are set | No; only when staff link a publication |
-| Prisme.ai | Hosting the optional Prisme agent, which sends each question to this backend's chat endpoint | No; only for the Prisme agent |
-| Cloudflare quick tunnel | Giving the laptop's backend a public address for the Prisme agent during the hackathon | No; a deployed backend has its own address |
+| Calameo | Reading linked publications | No; only when staff link a publication |
+| Prisme.ai | Hosting the Prisme agent, which sends each question to this backend | No; only for the Prisme agent |
 
-Tesseract (OCR) and, optionally, Ollama run on the same machine as the agent.
-
-**Reused code.** The open-source packages listed in `pyproject.toml` / `uv.lock` and
-`ccifj-frontend/package.json`, mainly FastAPI, SQLModel, LangChain and LangGraph, Chroma, bm25s,
-sentence-transformers, pypdf, pypdfium2, pytesseract, React and Vite.
-
-
-**Simulations.** Nothing leaves the system. Requests to staff and introductions are stored for staff review; no
-email is sent. Member follow-ups by email or LINE go to a mock outbox and are only marked as sent. Event bookings
-are reservations, not payments.
+**Sample data.** The member companies, contacts and accounts in the repository are sample data.
+The knowledge base is built from the public ccifj.or.jp website and CCIFJ's source documents.
+Requests to staff and introductions are stored for staff to handle in the dashboard, and member
+follow-ups go to an outbox that staff review.
 
 ---
 
@@ -389,8 +365,8 @@ uv run python -m unittest discover -s tests -p 'test_*.py'
 
 `scripts/verify.sh` runs the same plus the corpus check and the frontend build and
 tests. Live-model checks are separate: `scripts/evaluate.py --mode api` (100
-labelled questions, source hit rate) and `scripts/faq_check.py` (the organisers'
-71 recurring questions in EN/FR plus five fallback cases: missing price,
+labelled questions, source hit rate) and `scripts/faq_check.py` (71
+recurring CCIFJ questions in EN/FR plus five fallback cases: missing price,
 conflicting price, unknown member, unavailable event, unsupported policy). Both
 need a running, warmed API and call the model.
 
@@ -408,7 +384,7 @@ cd ccifj-frontend && npm test
 |---|---|
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How a message is answered, the agents and tools, approvals, search, the staff dashboard, the API, the database and the project structure |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Installing it in CCIFJ's environment (TYPO3, Odoo, GetResponse), keeping content current, running costs and who maintains what |
-| [docs/HACKATHON.md](docs/HACKATHON.md) | The demo runbook: staff access, the walkthrough and the evaluation commands |
+| [docs/HACKATHON.md](docs/HACKATHON.md) | A guided walkthrough: staff access, a demo script and the evaluation commands |
 | [prisme/README.md](prisme/README.md) | The Prisme.ai agent: set-up, the backend's address, the exported agent, reuse by another chamber |
 | [src/concierge/api/README.md](src/concierge/api/README.md) | The full API reference |
 | [src/concierge/db/README.md](src/concierge/db/README.md) | The database tables |
@@ -422,11 +398,9 @@ Built by **Team Irbid** at the 42 Asia Hackathon 2026:
 
 | Member | Role |
 |---|---|
-| Mohammed Adel | The AI agent and the staff dashboard |
+| Mohammed Adel ([@mohammedadel2023](https://github.com/mohammedadel2023)) | The AI agent and the staff dashboard |
 | Sara Ammourh | Database and backend |
 | Kanan Lafi | Retrieval (RAG) and search |
-| Raad Ali | Web scraping and the frontend |
-| Mohammad Khashan | Team member |
-| Blitz ([@Blitz-adali](https://github.com/Blitz-adali)) | Team member |
+| Raad Ali ([@Blitz-adali](https://github.com/Blitz-adali)) | Web scraping and the frontend |
 
 The team's hackathon repository is [Blitz-adali/CCIFJ-CHATBOT](https://github.com/Blitz-adali/CCIFJ-CHATBOT).
